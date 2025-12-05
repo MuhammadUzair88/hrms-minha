@@ -11,17 +11,9 @@ import {
   Timer,
   LogOut,
 } from "lucide-react";
+import { GoProjectRoadmap } from "react-icons/go";
 
-const menuItems = [
-  { icon: <LayoutDashboard size={20} />, path: "/" },
-  { icon: <CalendarCheck size={20} />, path: "/attendence" },
-  { icon: <CalendarDays size={20} />, path: "/leaves" },
-  { icon: <ClipboardList size={20} />, path: "/task-management" },
-  { icon: <DollarSign size={20} />, path: "/payroll" },
-  { icon: <BarChart3 size={20} />, path: "/feedback" },
-  { icon: <Megaphone size={20} />, path: "/announcements" },
-  { icon: <Timer size={20} />, path: "/dailywork" },
-];
+const menuItems = [{ icon: <GoProjectRoadmap size={20} />, path: "/" }];
 
 const SidebarCollapsed = () => {
   return (
