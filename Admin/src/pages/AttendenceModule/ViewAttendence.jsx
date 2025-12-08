@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { format } from "date-fns";
 import { DateRange } from "react-date-range";
-import { CalendarDays, Eye, Edit, Trash2, Upload } from "lucide-react";
+import { CalendarDays } from "lucide-react";
 import { dummyAttendanceRecords, dummyEmployees } from "../../assets/assets";
 
 import "react-date-range/dist/styles.css";
@@ -11,7 +11,6 @@ import "react-date-range/dist/theme/default.css";
 import StatCard from "../../components/Attendence/StatCard";
 import Table from "../../components/Table";
 import Pagination from "../../components/Pagination";
-import ActionMenu from "../../components/ActionMenu";
 
 const ViewAttendence = () => {
   const navigate = useNavigate();
@@ -20,7 +19,6 @@ const ViewAttendence = () => {
   const [employee, setEmployee] = useState(null);
   const [attendance, setAttendance] = useState([]);
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [openActionMenu, setOpenActionMenu] = useState(null);
 
   const [dateRange, setDateRange] = useState([
     {
@@ -29,6 +27,9 @@ const ViewAttendence = () => {
       key: "selection",
     },
   ]);
+
+  // Date modal ref
+  const datePickerRef = useRef(null);
 
   // Pagination Logic
   const [currentPage, setCurrentPage] = useState(1);
@@ -50,19 +51,23 @@ const ViewAttendence = () => {
     }
   }, [id]);
 
+  // Close date modal on outside click
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (!e.target.closest(".action-dropdown")) {
-        setOpenActionMenu(null);
+      if (datePickerRef.current && !datePickerRef.current.contains(e.target)) {
+        setShowDatePicker(false);
       }
     };
-    document.addEventListener("click", handleClickOutside);
-    return () => document.removeEventListener("click", handleClickOutside);
-  }, []);
 
-  // Dynamic ActionMenu items
+    if (showDatePicker) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
 
-  // Table columns
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [showDatePicker]);
+
   const columns = [
     "Select",
     "Date",
@@ -88,7 +93,7 @@ const ViewAttendence = () => {
         <h1>Attendance</h1>
       </div>
 
-      {/* Top bar */}
+      {/* Top Bar */}
       <div className="px-[39px] pt-[26px] flex items-center justify-between">
         <div className="flex items-center gap-3">
           <img
@@ -102,7 +107,7 @@ const ViewAttendence = () => {
           </div>
         </div>
 
-        {/* Date range + export */}
+        {/* Date Picker + Export */}
         <div className="flex items-center gap-3 relative">
           <button
             className="border border-gray-300 rounded-lg px-3 py-2 text-sm flex items-center gap-2"
@@ -116,7 +121,10 @@ const ViewAttendence = () => {
           </button>
 
           {showDatePicker && (
-            <div className="absolute top-12 right-0 z-50 shadow-lg">
+            <div
+              ref={datePickerRef}
+              className="absolute top-12 right-0 z-50 shadow-lg"
+            >
               <DateRange
                 editableDateInputs={true}
                 onChange={(item) => setDateRange([item.selection])}
@@ -163,7 +171,7 @@ const ViewAttendence = () => {
             att.idleTime || "-",
             att.workHours || "-",
             <span
-              className={`text-sm text-white whitespace-nowrap text-center w-20 py-1 rounded-md  flex items-center justify-center ${
+              className={`text-sm text-white whitespace-nowrap text-center w-20 py-1 rounded-md flex items-center justify-center ${
                 att.status === "Late" ? "bg-[#EB0016]" : "bg-[#00B172]"
               }`}
             >

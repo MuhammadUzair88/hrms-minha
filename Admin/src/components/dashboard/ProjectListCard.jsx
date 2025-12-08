@@ -71,7 +71,7 @@ export default function ProjectListCard() {
   const { isSidebarOpen } = useToggle();
 
   return (
-    <div className="flex-1 min-w-[320px] h-[384px] bg-white rounded-2xl border border-gray-200 px-4 py-5 font-sans shadow-sm flex flex-col">
+    <div className="flex-1 w-full  min-h-[384px] bg-white rounded-2xl border border-gray-200 px-4 py-5 font-sans shadow-sm flex flex-col">
       {/* Header */}
       <h2 className="text-xl font-semibold text-gray-800 mb-4">Projects</h2>
 
@@ -111,7 +111,8 @@ export default function ProjectListCard() {
             {/* Status */}
             <div>
               <span
-                className={`text-white text-[11px] font-semibold px-2 py-1 rounded ${project.statusColor}`}
+                className={`text-white text-[11px] font-semibold px-2 py-1 rounded flex items-center justify-center ${project.statusColor}`}
+                style={{ width: "80px" }}
               >
                 {project.status}
               </span>

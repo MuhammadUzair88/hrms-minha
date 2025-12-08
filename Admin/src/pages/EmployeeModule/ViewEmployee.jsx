@@ -150,8 +150,6 @@ const ViewEmployee = () => {
             </h1>
           </div>
         </div>
-
-        <Button label={"Edit Profile"} icon={PencilIcon} />
       </div>
 
       {/* Tabs */}

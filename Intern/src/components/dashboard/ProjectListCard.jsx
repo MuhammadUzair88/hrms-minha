@@ -111,7 +111,8 @@ export default function ProjectListCard() {
             {/* Status */}
             <div>
               <span
-                className={`text-white text-[11px] font-semibold px-2 py-1 rounded ${project.statusColor}`}
+                className={`text-white text-[11px] font-semibold px-2 py-1 rounded flex items-center justify-center ${project.statusColor}`}
+                style={{ width: "80px" }}
               >
                 {project.status}
               </span>
