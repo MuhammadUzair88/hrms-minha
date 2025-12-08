@@ -35,6 +35,7 @@ const HexFilled = () => (
 
 const TaskCard = () => {
   const navigate = useNavigate();
+
   const [tasks, setTasks] = useState([
     { id: "01", title: "Create wireframes", done: false },
     { id: "02", title: "User flows", done: false },
@@ -53,7 +54,7 @@ const TaskCard = () => {
   };
 
   return (
-    <div className="w-full h-[384px] bg-white rounded-xl border border-zinc-400/20 p-6 flex flex-col gap-6">
+    <div className="w-full min-h-[384px] bg-white rounded-xl border border-zinc-400/20 p-6 flex flex-col gap-6">
       <h2 className="text-xl font-medium font-inter">
         My Tasks{" "}
         <span className="font-normal">

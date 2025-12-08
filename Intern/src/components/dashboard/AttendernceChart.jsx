@@ -28,9 +28,6 @@ const data = [
 ];
 
 export default function AttendanceChart() {
-  const [showDatePicker, setShowDatePicker] = useState(false);
-
-  // default range: today → today
   const [dateRange, setDateRange] = useState([
     {
       startDate: new Date(),
@@ -38,16 +35,16 @@ export default function AttendanceChart() {
       key: "selection",
     },
   ]);
-  const { isSidebarOpen } = useToggle();
 
   return (
-    <div className="flex-[2] min-w-[500px] h-[384px] bg-white border border-gray-200 rounded-2xl p-6 shadow-sm font-sans">
+    <div className="w-full min-h-[384px] bg-white border border-gray-200 rounded-2xl p-4 md:p-6 shadow-sm font-sans">
       {/* Header */}
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold text-gray-800">Attendance</h2>
+      <div className="flex flex-wrap justify-between items-center gap-4 mb-4">
+        {/* Title + Legend */}
+        <div className="flex flex-wrap items-center gap-6">
+          <h2 className="text-xl font-semibold text-gray-800">Attendance</h2>
 
-        <div className="flex items-center gap-6">
-          {/* Custom Legend */}
+          {/* Legend */}
           <div className="flex gap-4 text-sm font-medium">
             <span className="flex items-center gap-2 text-gray-700">
               <span className="w-3 h-3 rounded-full bg-[#248cd8]"></span>
@@ -63,92 +60,91 @@ export default function AttendanceChart() {
             </span>
           </div>
         </div>
-        <DateRangePicker
-          range={dateRange}
-          onToggle={() => setShowDatePicker((prev) => !prev)}
-        />
+
+        {/* Date Picker */}
+        <div className="shrink-0">
+          <DateRangePicker range={dateRange} />
+        </div>
       </div>
 
-      {/* Chart */}
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart
-          data={data}
-          margin={{ top: 0, right: 20, bottom: 0, left: 0 }}
-        >
-          <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-          <XAxis
-            dataKey="month"
-            tick={{ fontSize: 12, fill: "#6b7280" }}
-            axisLine={false}
-            tickLine={false}
-          />
-          <YAxis
-            domain={[0, 100]}
-            tickFormatter={(value) => `${value}%`}
-            tick={{ fontSize: 12, fill: "#6b7280" }}
-            axisLine={false}
-            tickLine={false}
-            ticks={[0, 20, 40, 60, 80, 100]}
-          />
-          <Tooltip
-            formatter={(value) => [`${value}%`, ""]}
-            labelStyle={{ fontWeight: "bold", color: "#000" }}
-            contentStyle={{
-              borderRadius: "8px",
-              fontSize: "14px",
-              backgroundColor: "#fff",
-              border: "1px solid #e5e7eb",
-              boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
-            }}
-          />
+      {/* Chart Container — fully responsive */}
+      <div className="w-full h-[240px] sm:h-[260px] md:h-[300px]">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart
+            data={data}
+            margin={{ top: 0, right: 20, bottom: 0, left: 0 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
 
-          {/* Area fills */}
-          <Area
-            type="monotone"
-            dataKey="onTime"
-            stroke={false}
-            fill="rgba(36, 140, 216, 0.1)"
-            activeDot={false}
-          />
-          <Area
-            type="monotone"
-            dataKey="late"
-            stroke={false}
-            fill="rgba(0, 177, 114, 0.1)"
-            activeDot={false}
-          />
-          <Area
-            type="monotone"
-            dataKey="absent"
-            stroke={false}
-            fill="rgba(238, 36, 0, 0.1)"
-            activeDot={false}
-          />
+            <XAxis
+              dataKey="month"
+              tick={{ fontSize: 12, fill: "#6b7280" }}
+              axisLine={false}
+              tickLine={false}
+            />
 
-          {/* Lines */}
-          <Line
-            type="monotone"
-            dataKey="onTime"
-            stroke="#248cd8"
-            strokeWidth={2}
-            dot={{ r: 4, stroke: "#fff", strokeWidth: 2, fill: "#248cd8" }}
-          />
-          <Line
-            type="monotone"
-            dataKey="late"
-            stroke="#00b172"
-            strokeWidth={2}
-            dot={{ r: 4, stroke: "#fff", strokeWidth: 2, fill: "#00b172" }}
-          />
-          <Line
-            type="monotone"
-            dataKey="absent"
-            stroke="#ee2400"
-            strokeWidth={2}
-            dot={{ r: 4, stroke: "#fff", strokeWidth: 2, fill: "#ee2400" }}
-          />
-        </LineChart>
-      </ResponsiveContainer>
+            <YAxis
+              domain={[0, 100]}
+              tickFormatter={(value) => `${value}%`}
+              tick={{ fontSize: 12, fill: "#6b7280" }}
+              axisLine={false}
+              tickLine={false}
+              ticks={[0, 20, 40, 60, 80, 100]}
+            />
+
+            <Tooltip
+              formatter={(value) => [`${value}%`, ""]}
+              labelStyle={{ fontWeight: "bold", color: "#000" }}
+              contentStyle={{
+                borderRadius: "8px",
+                backgroundColor: "#fff",
+                border: "1px solid #e5e7eb",
+                boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+              }}
+            />
+
+            {/* Area backgrounds */}
+            <Area
+              type="monotone"
+              dataKey="onTime"
+              fill="rgba(36, 140, 216, 0.1)"
+            />
+            <Area
+              type="monotone"
+              dataKey="late"
+              fill="rgba(0, 177, 114, 0.1)"
+            />
+            <Area
+              type="monotone"
+              dataKey="absent"
+              fill="rgba(238, 36, 0, 0.1)"
+            />
+
+            {/* Lines */}
+            <Line
+              type="monotone"
+              dataKey="onTime"
+              stroke="#248cd8"
+              strokeWidth={2}
+              dot={{ r: 4, stroke: "#fff", strokeWidth: 2, fill: "#248cd8" }}
+            />
+            <Line
+              type="monotone"
+              dataKey="late"
+              stroke="#00b172"
+              strokeWidth={2}
+              dot={{ r: 4, stroke: "#fff", strokeWidth: 2, fill: "#00b172" }}
+            />
+            <Line
+              type="monotone"
+              dataKey="absent"
+              stroke="#ee2400"
+              strokeWidth={2}
+              dot={{ r: 4, stroke: "#fff", strokeWidth: 2, fill: "#ee2400" }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 }

@@ -45,21 +45,14 @@ const Dashboard = () => {
           <p className="text-gray-500 text-sm">Good Morning</p>
         </div>
 
-        {/* Right: Search + Bell */}
+        {/* Right: Search  */}
         <div className="flex items-center gap-3">
           <SearchBar />
-          <div
-            className="bg-gray-100 h-9 w-9 flex items-center justify-center 
-              rounded-lg cursor-pointer hover:bg-gray-200 transition-colors"
-            onClick={() => navigate("/notifications")}
-          >
-            <Bell className="text-gray-500" size={22} />
-          </div>
         </div>
       </div>
 
       {/* Stats Cards */}
-      <div className="px-[39px] pt-[26px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div className="px-4 md:px-6 lg:px-10 pt-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
         <DashboardCards
           title="Total Employee"
           value="560"
@@ -95,13 +88,12 @@ const Dashboard = () => {
       </div>
 
       {/* Charts Row */}
-      <div className="px-[39px] pt-[26px] grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <div className="px-4 md:px-6 lg:px-10 pt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
         <AttendanceChart />
         <EmployeeApplications />
       </div>
 
-      {/* Bottom Row */}
-      <div className="px-[39px] py-[26px] grid grid-cols-1 lg:grid-cols-2 gap-5  ">
+      <div className="px-4 md:px-6 lg:px-10 py-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
         <ProjectListCard />
         <EmployeePerformanceChart />
       </div>
