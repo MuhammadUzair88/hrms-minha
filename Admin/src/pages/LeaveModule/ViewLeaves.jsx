@@ -9,6 +9,7 @@ import Table from "../../components/Table";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import Pagination from "../../components/Pagination";
+import DateRangeSelector from "../../components/DateRangePicker";
 
 const ViewLeaves = () => {
   const navigate = useNavigate();
@@ -83,18 +84,7 @@ const ViewLeaves = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-3 relative">
-          <button
-            className="border border-gray-300 rounded-lg px-3 py-2 text-sm flex items-center gap-2"
-            onClick={() => setShowDatePicker((prev) => !prev)}
-          >
-            {`${format(dateRange[0].startDate, "MMM dd")} - ${format(
-              dateRange[0].endDate,
-              "MMM dd"
-            )}`}
-            <CalendarDays size={16} />
-          </button>
-        </div>
+        <DateRangeSelector value={dateRange} onChange={setDateRange} />
       </div>
 
       {/* Table */}

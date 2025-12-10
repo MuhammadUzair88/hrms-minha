@@ -7,6 +7,7 @@ import Button from "../../components/Button";
 import ToggleButton from "../../components/ToggleButton";
 import Designer from "../../components/TaskManager/Designer"; // ONLY Designer imported
 import DateRangePicker from "../../components/DateRangePicker";
+import DateRangeSelector from "../../components/DateRangePicker";
 
 const TaskManagement = () => {
   const { toggleSidebar, isSidebarOpen } = useToggle();
@@ -46,11 +47,7 @@ const TaskManagement = () => {
           {/* Search Box */}
           <SearchBar />
 
-          {/* Export Button */}
-          <DateRangePicker
-            range={dateRange}
-            onToggle={() => setShowDatePicker((prev) => !prev)}
-          />
+          <DateRangeSelector value={dateRange} onChange={setDateRange} />
         </div>
       </div>
 

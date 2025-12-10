@@ -1,16 +1,12 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { format } from "date-fns";
-import { DateRange } from "react-date-range";
-import { CalendarDays } from "lucide-react";
+
 import { dummyAttendanceRecords, dummyEmployees } from "../../assets/assets";
-
-import "react-date-range/dist/styles.css";
-import "react-date-range/dist/theme/default.css";
-
 import StatCard from "../../components/Attendence/StatCard";
 import Table from "../../components/Table";
 import Pagination from "../../components/Pagination";
+import DateRangeSelector from "../../components/DateRangePicker"; // Import the reusable component
 
 const ViewAttendence = () => {
   const navigate = useNavigate();
@@ -18,8 +14,8 @@ const ViewAttendence = () => {
 
   const [employee, setEmployee] = useState(null);
   const [attendance, setAttendance] = useState([]);
-  const [showDatePicker, setShowDatePicker] = useState(false);
 
+  // Date range state
   const [dateRange, setDateRange] = useState([
     {
       startDate: new Date(),
@@ -27,9 +23,6 @@ const ViewAttendence = () => {
       key: "selection",
     },
   ]);
-
-  // Date modal ref
-  const datePickerRef = useRef(null);
 
   // Pagination Logic
   const [currentPage, setCurrentPage] = useState(1);
@@ -40,6 +33,7 @@ const ViewAttendence = () => {
     currentPage * rowsPerPage
   );
 
+  // Fetch employee and attendance data
   useEffect(() => {
     const emp = dummyEmployees.find((e) => e.id === parseInt(id));
     if (emp) {
@@ -50,23 +44,6 @@ const ViewAttendence = () => {
       setAttendance(records);
     }
   }, [id]);
-
-  // Close date modal on outside click
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (datePickerRef.current && !datePickerRef.current.contains(e.target)) {
-        setShowDatePicker(false);
-      }
-    };
-
-    if (showDatePicker) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [showDatePicker]);
 
   const columns = [
     "Select",
@@ -107,32 +84,12 @@ const ViewAttendence = () => {
           </div>
         </div>
 
-        {/* Date Picker + Export */}
-        <div className="flex items-center gap-3 relative">
-          <button
-            className="border border-gray-300 rounded-lg px-3 py-2 text-sm flex items-center gap-2"
-            onClick={() => setShowDatePicker((prev) => !prev)}
-          >
-            {`${format(dateRange[0].startDate, "MMM dd")} - ${format(
-              dateRange[0].endDate,
-              "MMM dd"
-            )}`}
-            <CalendarDays size={16} />
-          </button>
-
-          {showDatePicker && (
-            <div
-              ref={datePickerRef}
-              className="absolute top-12 right-0 z-50 shadow-lg"
-            >
-              <DateRange
-                editableDateInputs={true}
-                onChange={(item) => setDateRange([item.selection])}
-                moveRangeOnFirstSelection={false}
-                ranges={dateRange}
-              />
-            </div>
-          )}
+        {/* Date Picker */}
+        <div className="flex items-center gap-3">
+          <DateRangeSelector
+            value={dateRange}
+            onChange={(range) => setDateRange(range)}
+          />
         </div>
       </div>
 

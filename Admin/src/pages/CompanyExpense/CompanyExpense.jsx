@@ -14,6 +14,7 @@ import FilterButton from "../../components/FilterButton";
 import ToggleButton from "../../components/ToggleButton";
 import Pagination from "../../components/Pagination";
 import DateRangePicker from "../../components/DateRangePicker";
+import DateRangeSelector from "../../components/DateRangePicker";
 
 const CompanyExpense = () => {
   const navigate = useNavigate();
@@ -68,9 +69,9 @@ const CompanyExpense = () => {
       <div className="px-[39px] pt-[26px] flex flex-col md:flex-row justify-between gap-4 items-start md:items-center">
         {/* Search & Export */}
         <div className="w-full flex justify-end gap-2">
-          <DateRangePicker
-            range={dateRange}
-            onToggle={() => setShowDatePicker((prev) => !prev)}
+          <DateRangeSelector
+            value={dateRange}
+            onChange={(range) => setDateRange(range)}
           />
           <FilterButton onClick={() => setOpenFilter(true)} />{" "}
         </div>

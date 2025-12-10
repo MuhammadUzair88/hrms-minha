@@ -19,6 +19,7 @@ import Table from "../../../components/Table";
 import Pagination from "../../../components/Pagination";
 import ToggleButton from "../../../components/ToggleButton";
 import ActionMenu from "../../../components/ActionMenu"; // ✅ reusable dropdown
+import DateRangeSelector from "../../../components/DateRangePicker";
 
 const InternCertificate = () => {
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -26,8 +27,7 @@ const InternCertificate = () => {
   const { toggleSidebar, isSidebarOpen } = useToggle();
   const navigate = useNavigate();
 
-  // Dummy date range
-  const [dateRange] = useState([
+  const [dateRange, setDateRange] = useState([
     {
       startDate: new Date(),
       endDate: new Date(),
@@ -95,17 +95,11 @@ const InternCertificate = () => {
 
       {/* Top Bar */}
       <div className="px-[39px] pt-[26px] flex justify-between items-center">
-        {/* Date Range Button */}
-        <button
-          className="border border-gray-300 rounded-lg px-3 py-2 text-sm flex items-center gap-2"
-          onClick={() => setShowDatePicker((prev) => !prev)}
-        >
-          {`${format(dateRange[0].startDate, "MMM dd")} - ${format(
-            dateRange[0].endDate,
-            "MMM dd"
-          )}`}
-          <CalendarDays size={16} />
-        </button>
+        <DateRangeSelector
+          value={dateRange}
+          onChange={(range) => setDateRange(range)}
+          position="left"
+        />
 
         <div className="flex items-center gap-2"></div>
       </div>

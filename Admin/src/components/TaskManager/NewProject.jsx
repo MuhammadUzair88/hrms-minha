@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import Button from "../Button";
+import { useNavigate } from "react-router-dom";
 
 const NewProject = () => {
   // -------------------- STATES --------------------
@@ -22,13 +23,19 @@ const NewProject = () => {
     fileInputRef.current.click();
   };
 
+  const navigate = useNavigate();
+
   return (
     <div className="bg-white w-full min-h-screen flex flex-col">
       {/* Header */}
-      <div className="w-full border-b border-black/30">
-        <div className="px-4 py-6 flex items-center gap-3 font-semibold text-2xl tracking-tighter">
-          <h1 className="text-[#09182B]">New Project</h1>
-        </div>
+      <div className="border-b border-black/30 px-4 py-6 flex items-center gap-3 text-2xl font-semibold">
+        <img
+          src="/notifi.png"
+          alt="back"
+          onClick={() => navigate("/task-management")}
+          className="cursor-pointer"
+        />
+        <h1>New Project</h1>
       </div>
 
       <div className="px-10">
