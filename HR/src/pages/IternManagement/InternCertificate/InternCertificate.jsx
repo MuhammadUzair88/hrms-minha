@@ -18,6 +18,7 @@ import Table from "../../../components/Table";
 import Pagination from "../../../components/Pagination";
 import ToggleButton from "../../../components/ToggleButton";
 import ActionMenu from "../../../components/ActionMenu";
+import DateRangeSelector from "../../../components/DateRangePicker";
 
 const InternCertificate = () => {
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -25,8 +26,7 @@ const InternCertificate = () => {
   const { toggleSidebar, isSidebarOpen } = useToggle();
   const navigate = useNavigate();
 
-  // Dummy date range
-  const [dateRange] = useState([
+  const [dateRange, setDateRange] = useState([
     {
       startDate: new Date(),
       endDate: new Date(),
@@ -157,30 +157,24 @@ const InternCertificate = () => {
   return (
     <div className="bg-white w-full min-h-screen flex flex-col">
       {/* Header */}
-      <div className="w-full border-b border-black/30">
-        <div className="px-4 py-6 flex items-center gap-3 font-semibold text-2xl tracking-tighter">
-          <ToggleButton
-            checked={isSidebarOpen}
-            onChange={toggleSidebar}
-            label=""
-          />
-          <h1 className="text-[#09182B]">Intern Certificate</h1>
-        </div>
+      <div className="border-b border-black/30 px-4 py-6 flex items-center gap-3 text-2xl font-semibold">
+        <img
+          src="/notifi.png"
+          alt="back"
+          onClick={() => navigate("/interns")}
+          className="cursor-pointer"
+        />
+        <h1>Intern Certificate</h1>
       </div>
 
       {/* Top Bar */}
       <div className="px-[39px] pt-[26px] flex justify-between items-center">
         {/* Date Range Button */}
-        <button
-          className="border border-gray-300 rounded-lg px-3 py-2 text-sm flex items-center gap-2"
-          onClick={() => setShowDatePicker((prev) => !prev)}
-        >
-          {`${format(dateRange[0].startDate, "MMM dd")} - ${format(
-            dateRange[0].endDate,
-            "MMM dd"
-          )}`}
-          <CalendarDays size={16} />
-        </button>
+        <DateRangeSelector
+          value={dateRange}
+          onChange={setDateRange}
+          position="left"
+        />
 
         <div className="flex items-center gap-2">
           <Button

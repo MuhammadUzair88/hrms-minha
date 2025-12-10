@@ -11,6 +11,7 @@ import Designer from "../../components/TaskManager/Designer";
 
 // Dummy data
 import { dummyEmployees, dummyTasks } from "../../assets/assets";
+import DateRangeSelector from "../../components/DateRangePicker";
 
 const TaskManagement = () => {
   const { toggleSidebar, isSidebarOpen } = useToggle();
@@ -66,10 +67,7 @@ const TaskManagement = () => {
         {/* -------- Search + Date Range -------- */}
         <div className="flex items-center gap-2">
           <SearchBar />
-          <DateRangePicker
-            range={dateRange}
-            onToggle={() => setShowDatePicker(!showDatePicker)}
-          />
+          <DateRangeSelector value={dateRange} onChange={setDateRange} />
         </div>
       </div>
 

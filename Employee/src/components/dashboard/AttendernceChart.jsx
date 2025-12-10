@@ -9,8 +9,7 @@ import {
   Area,
 } from "recharts";
 import { useState } from "react";
-import { useToggle } from "../../context/Toggle";
-import DateRangePicker from "./../DateRangePicker";
+import DateRangeSelector from "../DateRangePicker";
 
 const data = [
   { month: "Jan", onTime: 30, late: 15, absent: 8 },
@@ -44,7 +43,6 @@ export default function AttendanceChart() {
         <div className="flex flex-wrap items-center gap-6">
           <h2 className="text-xl font-semibold text-gray-800">Attendance</h2>
 
-          {/* Legend */}
           <div className="flex gap-4 text-sm font-medium">
             <span className="flex items-center gap-2 text-gray-700">
               <span className="w-3 h-3 rounded-full bg-[#248cd8]"></span>
@@ -61,13 +59,15 @@ export default function AttendanceChart() {
           </div>
         </div>
 
-        {/* Date Picker */}
-        <div className="shrink-0">
-          <DateRangePicker range={dateRange} />
-        </div>
+        {/* Reusable Date Picker */}
+        <DateRangeSelector
+          value={dateRange}
+          onChange={setDateRange}
+          position="left" // This will align the popup to left-0
+        />
       </div>
 
-      {/* Chart Container — fully responsive */}
+      {/* Chart */}
       <div className="w-full h-[240px] sm:h-[260px] md:h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
@@ -94,16 +94,13 @@ export default function AttendanceChart() {
 
             <Tooltip
               formatter={(value) => [`${value}%`, ""]}
-              labelStyle={{ fontWeight: "bold", color: "#000" }}
               contentStyle={{
                 borderRadius: "8px",
                 backgroundColor: "#fff",
                 border: "1px solid #e5e7eb",
-                boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
               }}
             />
 
-            {/* Area backgrounds */}
             <Area
               type="monotone"
               dataKey="onTime"
@@ -120,27 +117,23 @@ export default function AttendanceChart() {
               fill="rgba(238, 36, 0, 0.1)"
             />
 
-            {/* Lines */}
             <Line
               type="monotone"
               dataKey="onTime"
               stroke="#248cd8"
               strokeWidth={2}
-              dot={{ r: 4, stroke: "#fff", strokeWidth: 2, fill: "#248cd8" }}
             />
             <Line
               type="monotone"
               dataKey="late"
               stroke="#00b172"
               strokeWidth={2}
-              dot={{ r: 4, stroke: "#fff", strokeWidth: 2, fill: "#00b172" }}
             />
             <Line
               type="monotone"
               dataKey="absent"
               stroke="#ee2400"
               strokeWidth={2}
-              dot={{ r: 4, stroke: "#fff", strokeWidth: 2, fill: "#ee2400" }}
             />
           </LineChart>
         </ResponsiveContainer>

@@ -7,9 +7,10 @@ import { useToggle } from "../../context/Toggle";
 import Table from "../../components/Table";
 import SearchBar from "../../components/SearchBar";
 import Button from "../../components/Button";
-import DateRangePicker from "../../components/DateRangePicker";
+
 import ToggleButton from "../../components/ToggleButton";
 import Pagination from "../../components/Pagination";
+import DateRangeSelector from "../../components/DateRangePicker";
 
 const PerformanceReview = () => {
   const { toggleSidebar, isSidebarOpen } = useToggle();
@@ -111,7 +112,11 @@ const PerformanceReview = () => {
 
       {/* Top Bar */}
       <div className="px-[39px] pt-[26px] flex justify-between items-center">
-        <DateRangePicker range={dateRange} onToggle={() => {}} />
+        <DateRangeSelector
+          value={dateRange}
+          onChange={setDateRange}
+          position="left"
+        />
 
         <div className="flex items-center gap-2">
           <SearchBar />

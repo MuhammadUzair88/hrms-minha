@@ -6,7 +6,7 @@ const Table = ({ columns, data, renderRow }) => {
     <div className="relative shadow-md rounded-lg bg-white ">
       {/* Scrollable container */}
       <div className="overflow-x-auto">
-        <table className="w-full text-sm text-left rtl:text-right text-black border-collapse min-w-max">
+        <table className="w-full  text-sm text-left rtl:text-right text-black border-collapse min-w-max">
           {/* Header */}
           <thead className="uppercase bg-gray-200 border-b border-gray-400">
             <tr className="h-14">

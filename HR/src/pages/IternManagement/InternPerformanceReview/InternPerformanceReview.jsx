@@ -9,6 +9,7 @@ import SearchBar from "../../../components/SearchBar";
 import Button from "../../../components/Button";
 import { useToggle } from "../../../context/Toggle";
 import Pagination from "../../../components/Pagination";
+import DateRangeSelector from "../../../components/DateRangePicker";
 
 const InternPerformanceReview = () => {
   const { toggleSidebar } = useToggle();
@@ -17,14 +18,13 @@ const InternPerformanceReview = () => {
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   // default range: today → today
-  const [dateRange] = useState([
+  const [dateRange, setDateRange] = useState([
     {
       startDate: new Date(),
       endDate: new Date(),
       key: "selection",
     },
   ]);
-
   const handleStatusClick = (review) => {
     if (review.status === "View Feedback") {
       navigate(`/intern-performance-review/feedback/view/${review.id}`, {
@@ -104,16 +104,11 @@ const InternPerformanceReview = () => {
       {/* Top Bar */}
       <div className="px-[39px] pt-[26px] flex justify-between items-center">
         {/* Date Button */}
-        <button
-          className="border border-gray-300 rounded-lg px-3 py-2 text-sm flex items-center gap-2"
-          onClick={() => setShowDatePicker((prev) => !prev)}
-        >
-          {`${format(dateRange[0].startDate, "MMM dd")} - ${format(
-            dateRange[0].endDate,
-            "MMM dd"
-          )}`}
-          <CalendarDays size={16} />
-        </button>
+        <DateRangeSelector
+          value={dateRange}
+          onChange={setDateRange}
+          position="left"
+        />
 
         <div className="flex items-center gap-2">
           {/* Search Box */}

@@ -1,15 +1,15 @@
-// src/components/ActionMenu.jsx
 import React, { useEffect, useRef, useState } from "react";
 import { MoreVertical } from "lucide-react";
 
 const ActionMenu = ({ emp, openActionMenu, setOpenActionMenu, actions }) => {
-  const menuRef = useRef(null);
+  const buttonRef = useRef(null);
   const [openUpward, setOpenUpward] = useState(false);
+  const [menuPos, setMenuPos] = useState({ top: 0, left: 0 });
 
-  // ✅ Close on outside click
+  // Close on outside click
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
+      if (!e.target.closest(".action-menu-fixed")) {
         setOpenActionMenu(null);
       }
     };
@@ -17,20 +17,27 @@ const ActionMenu = ({ emp, openActionMenu, setOpenActionMenu, actions }) => {
     return () => document.removeEventListener("click", handleClickOutside);
   }, [setOpenActionMenu]);
 
-  // ✅ Check if menu is near bottom
+  // Calculate menu direction + fixed position
   useEffect(() => {
-    if (openActionMenu === emp.id && menuRef.current) {
-      const rect = menuRef.current.getBoundingClientRect();
+    if (openActionMenu === emp.id && buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
-      // If not enough space below (less than 150px), open upward
-      setOpenUpward(viewportHeight - rect.bottom < 150);
+
+      const shouldOpenUp = viewportHeight - rect.bottom < 150;
+      setOpenUpward(shouldOpenUp);
+
+      setMenuPos({
+        top: shouldOpenUp ? rect.top - 10 : rect.bottom + 10,
+        left: rect.left + rect.width / 2,
+      });
     }
   }, [openActionMenu, emp.id]);
 
   return (
-    <div ref={menuRef} className="relative inline-block">
-      {/* Toggle Button */}
+    <div className="relative inline-block">
+      {/* Toggle button */}
       <button
+        ref={buttonRef}
         onClick={(e) => {
           e.stopPropagation();
           setOpenActionMenu((prev) => (prev === emp.id ? null : emp.id));
@@ -40,12 +47,15 @@ const ActionMenu = ({ emp, openActionMenu, setOpenActionMenu, actions }) => {
         <MoreVertical size={18} />
       </button>
 
-      {/* Dropdown Menu */}
+      {/* Dropdown Menu - Now Fixed Position */}
       {openActionMenu === emp.id && (
         <div
-          className={`absolute ${
-            openUpward ? "bottom-full mb-2" : "top-full mt-2"
-          } left-1/2 -translate-x-1/2 w-32 bg-white rounded-xl shadow-xl z-50`}
+          className="action-menu-fixed fixed z-50 w-32 bg-white rounded-xl shadow-xl"
+          style={{
+            top: menuPos.top,
+            left: menuPos.left,
+            transform: "translateX(-50%)",
+          }}
         >
           <ul className="py-2 text-sm text-[#09182B] font-medium">
             {actions.map((action, index) => (

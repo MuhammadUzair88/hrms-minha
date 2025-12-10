@@ -107,15 +107,14 @@ const InternAttendanceManagement = () => {
   return (
     <div className="bg-white w-full min-h-screen flex flex-col">
       {/* ✅ Header */}
-      <div className="w-full border-b border-black/30">
-        <div className="px-4 py-6 flex items-center gap-3 font-semibold text-2xl tracking-tighter">
-          <ToggleButton
-            checked={isSidebarOpen}
-            onChange={toggleSidebar}
-            label=""
-          />
-          <h1 className="text-[#09182B]">Attendance Management</h1>
-        </div>
+      <div className="border-b border-black/30 px-4 py-6 flex items-center gap-3 text-2xl font-semibold">
+        <img
+          src="/notifi.png"
+          alt="back"
+          onClick={() => navigate("/interns")}
+          className="cursor-pointer"
+        />
+        <h1>Attendance Management</h1>
       </div>
 
       {/* ✅ Top Bar */}

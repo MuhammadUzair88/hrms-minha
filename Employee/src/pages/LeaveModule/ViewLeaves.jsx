@@ -14,6 +14,7 @@ import { MdHolidayVillage } from "react-icons/md";
 import { BiAddToQueue } from "react-icons/bi";
 import ToggleButton from "../../components/ToggleButton";
 import { useToggle } from "../../context/Toggle";
+import DateRangeSelector from "../../components/DateRangePicker";
 
 const ViewLeaves = () => {
   const navigate = useNavigate();
@@ -86,16 +87,7 @@ const ViewLeaves = () => {
         </div>
 
         <div className="flex items-center gap-3 relative">
-          <button
-            className="border border-gray-300 rounded-lg px-3 py-2 text-sm flex items-center gap-2"
-            onClick={() => setShowDatePicker((prev) => !prev)}
-          >
-            {`${format(dateRange[0].startDate, "MMM dd")} - ${format(
-              dateRange[0].endDate,
-              "MMM dd"
-            )}`}
-            <CalendarDays size={16} />
-          </button>
+          <DateRangeSelector value={dateRange} onChange={setDateRange} />
 
           <button
             onClick={() => navigate(`/newleave`)}

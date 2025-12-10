@@ -12,6 +12,7 @@ import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { useToggle } from "../../context/Toggle";
 import DateRangePicker from "../DateRangePicker";
+import DateRangeSelector from "../DateRangePicker";
 
 // Sample data
 const data = [
@@ -74,13 +75,7 @@ export default function EmployeePerformanceChart() {
           </div>
         </div>
 
-        {/* Date Picker */}
-        <div className="shrink-0">
-          <DateRangePicker
-            range={dateRange}
-            onSelect={(range) => setDateRange([range])}
-          />
-        </div>
+        <DateRangeSelector value={dateRange} onChange={setDateRange} />
       </div>
 
       {/* Responsive Chart */}
